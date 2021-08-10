@@ -1,0 +1,29 @@
+{
+    "name": "toropyga/netcontent",
+    "description": "Library for working with the network from Toropyga",
+    "authors": [
+        {
+            "name": "Yuri Frantsevich",
+            "email": "frantsevich@gmail.com",
+            "homepage": "https://github.com/Toropyga/NetContent",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.1.0",
+        "ext-fileinfo": "*",
+        "ext-iconv": "*",
+        "ext-mbstring": "*",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "FYN\\": "src/"
+        }
+    }
+}
