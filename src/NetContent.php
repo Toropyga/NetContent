@@ -1355,10 +1355,12 @@ class NetContent {
      * @return array|mixed
      */
     public function getLogs ($all = false) {
-        if ($all) return $this->nc_log;
+        if ($all) $return['log'] = $this->nc_log;
         else {
             $c = count($this->nc_log) - 1;
-            return $this->nc_log[$c];
+            $return['log'] = $this->nc_log[$c];
         }
+        $return['file'] = $this->log_file;
+        return $return;
     }
 }
