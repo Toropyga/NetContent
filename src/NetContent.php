@@ -5,7 +5,7 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.1
+ * @version 3.0.2
  * @copyright 2011-2021
  */
 
@@ -1114,9 +1114,11 @@ class NetContent {
             $tmp_name = str_replace('.', '_', $tmp_name);
             $tmp_name = $tmp_name . '.html';
         }
-        $tmp_dir = '';//$_ENV['TMP'];
-        if (isset($_ENV['TMP'])) $tmp_dir = $_ENV['TMP'];
-        if (!$tmp_dir) $tmp_dir = (isset($_ENV['TMPDIR']) && $_ENV['TMPDIR'])?$_ENV['TMPDIR']:sys_get_temp_dir(); //'/tmp';
+        $tmp_dir = sys_get_temp_dir();
+        if (!file_exists($tmp_dir) || !is_dir($tmp_dir)) {
+            $tmp_dir = (isset($_ENV['TMP']) && $_ENV['TMP']) ? $_ENV['TMP'] : '';
+            if (!$tmp_dir) $tmp_dir = (isset($_ENV['TMPDIR']) && $_ENV['TMPDIR']) ? $_ENV['TMPDIR'] : '';
+        }
         if ($tmp_dir) $tmp_file = $tmp_dir.SEPARATOR.$tmp_name;
         else $tmp_file = $tmp_name;
         return $tmp_file;
