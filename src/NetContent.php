@@ -5,13 +5,11 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.3
+ * @version 3.0.4
  * @copyright 2011-2021
  */
 
 namespace FYN;
-
-use FYN\Base;
 
 class NetContent {
 
@@ -1298,23 +1296,6 @@ class NetContent {
         }
         $file_content = strtr($file_content, array($point => '.'));
         return $file_content;
-    }
-
-    /**
-     * Конвертирование текста в заданную кодировку
-     * @param string $line - строка с текстом
-     * @param string $enc - заданная кодировка, utf-8 по умолчанию
-     * @return string
-     */
-    public function convertLine ($line, $enc = 'utf-8') {
-        if ($this->debug) $this->nc_log[] = 'Function convertLine ('.$line.', '.$enc.')';
-        if (!$line) return $line;
-        $list = array('utf-8', 'ascii', 'cp1251', 'KOI8-R', 'CP866', 'KOI8-U');
-        $cod = '';
-        if (function_exists("mb_detect_encoding")) $cod = @mb_detect_encoding($line, $list, true);
-        if (!$cod) $cod = Base::detect_encoding($line);
-        if ($cod != $enc) $line = @mb_convert_encoding($line, $enc, $cod);
-        return $line;
     }
 
     /**
