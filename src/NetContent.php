@@ -5,11 +5,13 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.2
+ * @version 3.0.3
  * @copyright 2011-2021
  */
 
 namespace FYN;
+
+use FYN\Base;
 
 class NetContent {
 
@@ -1310,45 +1312,9 @@ class NetContent {
         $list = array('utf-8', 'ascii', 'cp1251', 'KOI8-R', 'CP866', 'KOI8-U');
         $cod = '';
         if (function_exists("mb_detect_encoding")) $cod = @mb_detect_encoding($line, $list, true);
-        if (!$cod) $cod = $this->detect_encoding($line);
+        if (!$cod) $cod = Base::detect_encoding($line);
         if ($cod != $enc) $line = @mb_convert_encoding($line, $enc, $cod);
         return $line;
-    }
-
-    /**
-     * Определение кодировки текста, если не отработала функция mb_detect_encoding
-     * Используем в функции convertLine
-     * @param $string - строка с текстом
-     * @param int $pattern_size - максимальная длина строки для парсинга
-     * @return mixed|string
-     */
-    public function detect_encoding ($string, $pattern_size = 50) {
-        if ($this->debug) $this->nc_log[] = 'Function detect_encoding ('.$string.', '.$pattern_size.')';
-        $list = array('utf-8', 'ascii', 'cp1251', 'KOI8-R', 'CP866', 'KOI8-U', 'ISO-8859-1');
-        $c = strlen($string);
-        if ($c > $pattern_size) {
-            $string = substr($string, floor(($c - $pattern_size) /2), $pattern_size);
-            $c = $pattern_size;
-        }
-
-        $reg1 = '/(\xE0|\xE5|\xE8|\xEE|\xF3|\xFB|\xFD|\xFE|\xFF)/i';
-        $reg2 = '/(\xE1|\xE2|\xE3|\xE4|\xE6|\xE7|\xE9|\xEA|\xEB|\xEC|\xED|\xEF|\xF0|\xF1|\xF2|\xF4|\xF5|\xF6|\xF7|\xF8|\xF9|\xFA|\xFC)/i';
-
-        $mk = 10000;
-        $enc = 'utf-8';
-        foreach ($list as $item) {
-            $sample1 = @iconv($item, 'cp1251', $string);
-            $gl = @preg_match_all($reg1, $sample1, $arr);
-            $sl = @preg_match_all($reg2, $sample1, $arr);
-            if (!$gl || !$sl) continue;
-            $k = abs(3 - ($sl / $gl));
-            $k += $c - $gl - $sl;
-            if ($k < $mk) {
-                $enc = $item;
-                $mk = $k;
-            }
-        }
-        return $enc;
     }
 
     /**

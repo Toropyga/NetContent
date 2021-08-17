@@ -12,6 +12,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.1.0",
+        "toropyga/base": "^1.0.2",
         "ext-fileinfo": "*",
         "ext-iconv": "*",
         "ext-mbstring": "*",
