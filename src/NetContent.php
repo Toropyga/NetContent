@@ -5,7 +5,7 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.4
+ * @version 3.0.5
  * @copyright 2011-2021
  */
 

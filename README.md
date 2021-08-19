@@ -136,16 +136,3 @@ $path = $net->getLastSavedPath();
 @param $filename - путь к файлу
 $mime = $net->get_mime_content_type($filename);
 ```
-Конвертирование текста в заданную кодировку
-```php
-@param string $line - строка с текстом
-@param string $enc - заданная кодировка, utf-8 по умолчанию
-$text = $net->convertLine($line, $enc = 'utf-8');
-```
-Определение кодировки текста, если не отработала функция mb_detect_encoding
-Используем в функции convertLine
-```php
-@param $string - строка с текстом
-@param int $pattern_size - максимальная длина строки для парсинга
-$code = $net->detect_encoding($string, $pattern_size);
-```
