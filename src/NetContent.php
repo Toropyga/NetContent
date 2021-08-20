@@ -5,7 +5,7 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.5
+ * @version 3.0.6
  * @copyright 2011-2021
  */
 
@@ -676,13 +676,13 @@ class NetContent {
         @$cURL_options[CURLOPT_FTP_CREATE_MISSING_DIRS] = 'bool';
         @$cURL_options[CURLOPT_FTPAPPEND]               = 'bool';
         @$cURL_options[CURLOPT_TCP_NODELAY]             = 'bool';
-        @$cURL_options[CURLOPT_FTPASCII]                = 'bool';
+//        @$cURL_options[CURLOPT_FTPASCII]                = 'bool'; // php 8
         @$cURL_options[CURLOPT_FTPLISTONLY]             = 'bool';
         @$cURL_options[CURLOPT_HEADER]                  = 'bool';
         @$cURL_options[CURLINFO_HEADER_OUT]             = 'bool';
         @$cURL_options[CURLOPT_HTTPGET]                 = 'bool';
         @$cURL_options[CURLOPT_HTTPPROXYTUNNEL]         = 'bool';
-        @$cURL_options[CURLOPT_MUTE]                    = 'bool';
+//        @$cURL_options[CURLOPT_MUTE]                    = 'bool'; // php 8
         @$cURL_options[CURLOPT_NETRC]                   = 'bool';
         @$cURL_options[CURLOPT_NOBODY]                  = 'bool';
         @$cURL_options[CURLOPT_NOPROGRESS]              = 'bool';
@@ -707,7 +707,7 @@ class NetContent {
         @$cURL_options[CURLOPT_SSL_VERIFYHOST]          = 'bool';
         //Для следующих значений параметра option, параметр value должен быть типа integer:
         @$cURL_options[CURLOPT_BUFFERSIZE]              = 'integer';
-        @$cURL_options[CURLOPT_CLOSEPOLICY]             = 'integer';
+//        @$cURL_options[CURLOPT_CLOSEPOLICY]             = 'integer'; // php 8
         @$cURL_options[CURLOPT_CONNECTTIMEOUT]          = 'integer';
         @$cURL_options[CURLOPT_CONNECTTIMEOUT_MS]       = 'integer';
         @$cURL_options[CURLOPT_DNS_CACHE_TIMEOUT]       = 'integer';
@@ -805,7 +805,7 @@ class NetContent {
         //Для следующих значений параметра option, параметр value должен быть правильным
         //именем функции или замыканием:
         @$cURL_options[CURLOPT_HEADERFUNCTION]          = 'function';
-        @$cURL_options[CURLOPT_PASSWDFUNCTION]          = 'function';
+//        @$cURL_options[CURLOPT_PASSWDFUNCTION]          = 'function'; // php 8
         @$cURL_options[CURLOPT_PROGRESSFUNCTION]        = 'function';
         @$cURL_options[CURLOPT_READFUNCTION]            = 'function';
         @$cURL_options[CURLOPT_WRITEFUNCTION]           = 'function';
