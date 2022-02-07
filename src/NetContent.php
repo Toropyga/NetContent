@@ -5,7 +5,7 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.1.0
+ * @version 3.1.1
  * @copyright 2011-2022
  */
 
@@ -218,11 +218,15 @@ class NetContent {
         $url_data = parse_url($url);
         $protocol = (isset($url_data['scheme']))?$url_data['scheme']:'http';
         $this->url_port = (isset($url_data['port']))?$url_data['port']:'';
-        $user = (isset($url_data['user']))?$url_data['user']:'';
-        $password = (isset($url_data['pass']))?$url_data['pass']:'';
-        $url = (isset($url_data['host']))?$url_data['host']:'';
-        $url .= (isset($url_data['path']))?$url_data['path']:'';
-        if (isset($url_data['query']) && $url_data['query']) $url .= '?'.$url_data['query'];
+        $host     = isset($url_data['host']) ? $url_data['host'] : '';
+        $port     = isset($url_data['port']) ? ':' . $url_data['port'] : '';
+        $user     = isset($url_data['user']) ? $url_data['user'] : '';
+        $pass     = isset($url_data['pass']) ? ':' . $url_data['pass']  : '';
+        $pass     = ($user || $pass) ? "$pass@" : '';
+        $path     = isset($url_data['path']) ? $url_data['path'] : '';
+        $query    = isset($url_data['query']) ? '?' . $url_data['query'] : '';
+        $fragment = isset($url_data['fragment']) ? '#' . $url_data['fragment'] : '';
+        $url = $host.$port.$path.$query.$fragment;
         if (!$url) {
             if ($this->debug) $this->nc_log[] = 'Function getContent() ERROR. HOST not found';
             return false;
@@ -246,9 +250,9 @@ class NetContent {
 
         // устанавливаем параметры для авторизации (логин, пароль)
         if (!$user && $this->nc_user) $user = $this->nc_user;
-        if (!$password && $this->nc_password) $password = $this->nc_password;
+        if (!$pass && $this->nc_password) $pass = $this->nc_password;
         if (!$protocol) $protocol = $this->protocol;
-        if ($this->nc_user2url && ($user || $password)) $url = $user . '@' . $password . ':' . $url;
+        if ($this->nc_user2url && ($user || $pass)) $url = $user . '@' . $pass . ':' . $url;
         $url = $protocol . '://' . $url;
         $this->url_protocol = $protocol;
         if ($this->debug) $this->nc_log[] = 'Function getContent (Protocol: ' . $this->url_protocol . ')';
@@ -317,7 +321,7 @@ class NetContent {
                     if (!preg_match("/\.(php|htm|html|asp|pl|exe)/", $last_name)) $path = join("/", $tmp_url_array);
                     else $path = join("/", $tmp);
                 }
-                if ($this->nc_user2url && ($user || $password)) $path = $user . '@' . $password . ':' . $path;
+                if ($this->nc_user2url && ($user || $pass)) $path = $user . '@' . $pass . ':' . $path;
                 $server = $this->url_protocol . '://' . $path;
 
                 header("Content-Type: $mime");
