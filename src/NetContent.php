@@ -5,7 +5,7 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.7
+ * @version 3.0.8
  * @copyright 2011-2022
  */
 
@@ -532,8 +532,9 @@ class NetContent {
      * Установка значений дополнительных заголовков, используемых при подключении
      * @param string $header - имя заголовка
      * @param string $value - значение
+     * @param boolean $other - специальный заголовок, не проверять на валидность
      */
-    public function setHeaders ($header, $value = '') {
+    public function setHeaders ($header, $value = '', $other = false) {
         if ($this->debug) $this->nc_log[] = 'Function setHeaders (\'' . $header . '\', \''.$value.'\')';
         // массив используемых заголовков
         $headers = array(
@@ -623,6 +624,7 @@ class NetContent {
             if (!isset($this->headers[$key])) $this->headers[$key] = '';
             $this->headers[$key] .= $header.": ".$value.PHP_EOL;
         }
+        elseif ($other) $this->headers['header'] .= $header.": ".$value.PHP_EOL;
     }
 
     /**
