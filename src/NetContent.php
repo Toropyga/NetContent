@@ -5,7 +5,7 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.8
+ * @version 3.0.9
  * @copyright 2011-2022
  */
 
@@ -624,7 +624,10 @@ class NetContent {
             if (!isset($this->headers[$key])) $this->headers[$key] = '';
             $this->headers[$key] .= $header.": ".$value.PHP_EOL;
         }
-        elseif ($other) $this->headers['header'] .= $header.": ".$value.PHP_EOL;
+        elseif ($other) {
+            if (!isset($this->headers['header'])) $this->headers['header'] = '';
+            $this->headers['header'] .= $header.": ".$value.PHP_EOL;
+        }
     }
 
     /**
