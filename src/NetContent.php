@@ -5,7 +5,7 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.9
+ * @version 3.1.0
  * @copyright 2011-2022
  */
 
@@ -134,7 +134,7 @@ class NetContent {
     private $nc_log = array();
 
     /**
-     * Список полученных файлов сохранённых во временной дирректории
+     * Список полученных файлов сохранённых во временной директории
      * @var array
      */
     private $delete_files = array();
@@ -156,7 +156,8 @@ class NetContent {
      * @var string
      */
     private $user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0';
-    //private $user_agent = 'MSIE 4\.0b2;'
+    //private $user_agent = 'MSIE 4\.0b2';
+    //private $user_agent = 'Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.51';
 
     /**
      * Включить | выключить режим отладки
@@ -174,16 +175,15 @@ class NetContent {
             define("SEPARATOR", $separator);
         }
         if (defined("NET_DEBUG")) $this->debug = NET_DEBUG;
-        ini_set('user_agent', $this->user_agent);
-        $this->headers['user_agent'] = $this->user_agent;
         if (defined("NET_USE_PROXY")) $this->setProxyUse(NET_USE_PROXY);
-        if (defined("NET_PROTOCOL"))$this->protocol = NET_PROTOCOL;
+        if (defined("NET_PROTOCOL"))$this->protocol = $this->setProtocol(NET_PROTOCOL);
         if (defined("NET_PROXY_ADDRESS") && defined("NET_PROXY_PORT") && defined("NET_PROXY_USER") && defined("NET_PROXY_PASSWD")) $this->setProxy(NET_PROXY_ADDRESS, NET_PROXY_PORT, NET_PROXY_USER, NET_PROXY_PASSWD);
         if (defined("NET_METHOD")) $this->setMethod(NET_METHOD);
-        if (defined("NET_NOT_SECURITY")) $this->not_use_security = NET_NOT_SECURITY;
+        if (defined("NET_NOT_SECURITY")) $this->not_use_security = $this->setSecure(NET_NOT_SECURITY);
         if (defined("NET_TIMEOUT")) $this->setNCTimeOut(NET_TIMEOUT);
         if (defined("NET_LOG_NAME")) $this->log_file = NET_LOG_NAME;
         if (defined("NET_TYPE")) $this->setType(NET_TYPE);
+        $this->setUseragent();
         return true;
     }
 
@@ -200,7 +200,7 @@ class NetContent {
     /**
      * Получение контента из интернета или другого компьютера
      *
-     * @param string $url - адрес рессурса
+     * @param string $url - адрес ресурса
      * @param int $mode - параметры обработки файла:
      *          1 - вывести в стандартный поток ввода/вывода
      *          2 - вернуть как строку
@@ -228,7 +228,7 @@ class NetContent {
             return false;
         }
         else $parse_url = $url;
-        // определяемпорт по умолчанию, если не передан для подключения через сокет
+        // определяем порт по умолчанию, если не передан для подключения через сокет
         if (!$this->url_port) {
             switch ($protocol) {
                 case 'https':
@@ -375,7 +375,7 @@ class NetContent {
      */
     public function setDebug($debug = false) {
         $this->nc_log[] = 'Function setDebug (' . $debug . ')';
-        if (is_integer($debug) && $debug === 1 || $debug === 0) $debug = ($debug)?true:false;
+        if (is_integer($debug) && $debug === 1 || $debug === 0) $debug = (bool)$debug;
         elseif (!is_bool($debug)) $debug = false;
         $this->debug = $debug;
         return true;
@@ -392,7 +392,7 @@ class NetContent {
             $txt = ($use_proxy)?'true':'false';
             $this->nc_log[] = 'Function setProxyUse (' . $txt . ')';
         }
-        if (is_integer($use_proxy) && $use_proxy === 1 || $use_proxy === 0) $use_proxy = ($use_proxy)?true:false;
+        if (is_integer($use_proxy) && $use_proxy === 1 || $use_proxy === 0) $use_proxy = (bool)$use_proxy;
         elseif (!is_bool($use_proxy)) $use_proxy = false;
         $this->use_proxy = $use_proxy;
         return true;
@@ -462,6 +462,44 @@ class NetContent {
     }
 
     /**
+     * Установка протокола передачи данных при подключении к запрашиваемому URL
+     * @param string $protocol
+     * @return boolean
+     */
+    public function setProtocol ($protocol = 'https') {
+        $protocols = array('https', 'http', 'ftp');
+        $protocol = mb_strtolower($protocol);
+        if (!in_array($protocol, $protocols)) $protocol = 'https';
+        if ($this->debug) $this->nc_log[] = 'Function setProtocol (' . $protocol . ')';
+        $this->protocol = $protocol;
+        return true;
+    }
+
+    /**
+     * Установка параметров использования безопасного соединения
+     * @param boolean $not_use_security
+     * @return boolean
+     */
+    public function setSecure ($not_use_security = false) {
+        if ($this->debug) $this->nc_log[] = 'Function setSecure '.($not_use_security)?'true':'false';
+        $this->not_use_security = (bool)$not_use_security;
+        return true;
+    }
+
+    /**
+     * Установка параметров использования безопасного соединения
+     * @param boolean $useragent
+     * @return boolean
+     */
+    public function setUseragent ($useragent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0') {
+        if ($this->debug) $this->nc_log[] = 'Function setUseragent ('.$useragent.')';
+        $this->user_agent = $useragent;
+        ini_set('user_agent', $this->user_agent);
+        $this->headers['user_agent'] = $this->user_agent;
+        return true;
+    }
+
+    /**
      * Установка имени пользователя и пароля используемых при подключении к удалённому серверу
      * @param string $user
      * @param string $password
@@ -522,7 +560,7 @@ class NetContent {
      */
     public function setHeaderCURL ($header = false) {
         if ($this->debug) $this->nc_log[] = 'Function setHeaderCURL (' . $header . ')';
-        if (is_integer($header) && $header === 1 || $header === 0) $header = ($header)?true:false;
+        if (is_integer($header) && $header === 1 || $header === 0) $header = (bool)$header;
         elseif (!is_bool($header)) $header = false;
         $this->nc_header = $header;
         return true;
@@ -641,8 +679,6 @@ class NetContent {
         $this->setOPTcURL(CURLOPT_PROXYUSERPWD, $this->proxy['user'].":".$this->proxy['password']);
         $this->setOPTcURL(CURLOPT_PROXYPORT, $this->proxy['port']);
         if ($this->protocol == 'https') $this->setOPTcURL(CURLOPT_HTTPPROXYTUNNEL, 1);
-        //$this->setOPTcURL(CURLOPT_SSLVERSION, 6);
-        //CURLOPT_SSL_CIPHER_LIST, 'TLSv1');
         if ($this->protocol == 'https') $this->setOPTcURL(CURLOPT_SSL_VERIFYPEER, false);
         if ($this->protocol == 'https') $this->setOPTcURL(CURLOPT_SSLVERSION, 3);
         return true;
@@ -951,8 +987,6 @@ class NetContent {
         fputs($fp, PHP_EOL);
         $content = '';
         while($line = @fread($fp, 4096)) {
-            //while (!feof($fp)) {
-            //    $line = @fread($fp, 4096);
             if ($line && $this->debug) $this->nc_log[] = '<<< ' . $line;
             $content .= $line;
         }
@@ -1035,13 +1069,12 @@ class NetContent {
 
         if (count($this->headers) && isset($this->headers['header'])) {
             $headers = preg_split("/".PHP_EOL."/", $this->headers['header']);
-            //if ($this->debug) $this->nc_log[] = 'Function getCURL () SET Headers: '.$this->headers['header'];
             if ($this->debug) $this->nc_log[] = 'Function getCURL () SET Headers: '.join (' - ', $headers);
             $this->setOPTcURL(CURLOPT_HTTPHEADER, $headers);
         }
 
+        curl_setopt($this->net, CURLOPT_USERAGENT, $this->user_agent);
         /*
-        // curl_setopt($this->net, CURLOPT_USERAGENT, "Opera/9.80 (Windows NT 5.1; U; ru) Presto/2.9.168 Version/11.51");
         // curl_setopt($this->net, CURLOPT_PROXYTYPE, CURLPROXY_HTTP); // If expected to call with specific PROXY type
         // curl_setopt($this->net, CURLOPT_FOLLOWLOCATION, 1);  // If url has redirects then go to the final redirected URL.
         */
@@ -1103,7 +1136,7 @@ class NetContent {
      * Определение MIME TYPE файла
      * используется при неработающей стандартной функции mime_content_type
      * @param $filename - путь к файлу
-     * @return mixed|string
+     * @return false|string
      */
     public function get_mime_content_type ($filename) {
         if ($this->debug) $this->nc_log[] = 'Function get_mime_content_type ('.$filename.')';
@@ -1176,7 +1209,7 @@ class NetContent {
     }
 
     /**
-     * Очистка временной дирректории от полученных файлов
+     * Очистка временной директории от полученных файлов
      * @return bool
      */
     private function clearTmp () {
@@ -1269,14 +1302,13 @@ class NetContent {
             $file_content = addslashes(stripslashes($file_content));
             $file_content = strtr($file_content, array('here_amp_here'=>'&'));
         }
-        $file_content = strtr($file_content, array($point => '.'));
-        return $file_content;
+        return strtr($file_content, array($point => '.'));
     }
 
     /**
      * Возвращаем логи
      * @param bool $all - все записи (true) или только последнюю (false)
-     * @return array|mixed
+     * @return array
      */
     public function getLogs ($all = false) {
         if ($all) $return['log'] = $this->nc_log;
