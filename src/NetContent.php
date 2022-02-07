@@ -5,8 +5,8 @@
  * @author Yuri Frantsevich (FYN)
  * Date: 29/08/2011
  * Time: 14:02
- * @version 3.0.6
- * @copyright 2011-2021
+ * @version 3.0.7
+ * @copyright 2011-2022
  */
 
 namespace FYN;
@@ -666,7 +666,6 @@ class NetContent {
         @$cURL_options[CURLOPT_CRLF]                    = 'bool';
         @$cURL_options[CURLOPT_DNS_USE_GLOBAL_CACHE]    = 'bool';
         @$cURL_options[CURLOPT_FAILONERROR]             = 'bool';
-        @$cURL_options[CURLOPT_SSL_FALSESTART]          = 'bool';
         @$cURL_options[CURLOPT_FILETIME]                = 'bool';
         @$cURL_options[CURLOPT_FOLLOWLOCATION]          = 'bool';
         @$cURL_options[CURLOPT_FORBID_REUSE]            = 'bool';
@@ -676,30 +675,20 @@ class NetContent {
         @$cURL_options[CURLOPT_FTP_CREATE_MISSING_DIRS] = 'bool';
         @$cURL_options[CURLOPT_FTPAPPEND]               = 'bool';
         @$cURL_options[CURLOPT_TCP_NODELAY]             = 'bool';
-//        @$cURL_options[CURLOPT_FTPASCII]                = 'bool'; // php 8
         @$cURL_options[CURLOPT_FTPLISTONLY]             = 'bool';
         @$cURL_options[CURLOPT_HEADER]                  = 'bool';
         @$cURL_options[CURLINFO_HEADER_OUT]             = 'bool';
         @$cURL_options[CURLOPT_HTTPGET]                 = 'bool';
         @$cURL_options[CURLOPT_HTTPPROXYTUNNEL]         = 'bool';
-//        @$cURL_options[CURLOPT_MUTE]                    = 'bool'; // php 8
         @$cURL_options[CURLOPT_NETRC]                   = 'bool';
         @$cURL_options[CURLOPT_NOBODY]                  = 'bool';
         @$cURL_options[CURLOPT_NOPROGRESS]              = 'bool';
         @$cURL_options[CURLOPT_NOSIGNAL]                = 'bool';
-        @$cURL_options[CURLOPT_PATH_AS_IS]              = 'bool';
-        @$cURL_options[CURLOPT_PIPEWAIT]                = 'bool';
         @$cURL_options[CURLOPT_POST]                    = 'bool';
         @$cURL_options[CURLOPT_PUT]                     = 'bool';
         @$cURL_options[CURLOPT_RETURNTRANSFER]          = 'bool';
         @$cURL_options[CURLOPT_SAFE_UPLOAD]             = 'bool';
-        @$cURL_options[CURLOPT_SASL_IR]                 = 'bool';
-        @$cURL_options[CURLOPT_SSL_ENABLE_ALPN]         = 'bool';
-        @$cURL_options[CURLOPT_SSL_ENABLE_NPN]          = 'bool';
         @$cURL_options[CURLOPT_SSL_VERIFYPEER]          = 'bool';
-        @$cURL_options[CURLOPT_SSL_VERIFYSTATUS]        = 'bool';
-        @$cURL_options[CURLOPT_TCP_FASTOPEN]            = 'bool';
-        @$cURL_options[CURLOPT_TFTP_NO_OPTIONS]         = 'bool';
         @$cURL_options[CURLOPT_TRANSFERTEXT]            = 'bool';
         @$cURL_options[CURLOPT_UNRESTRICTED_AUTH]       = 'bool';
         @$cURL_options[CURLOPT_UPLOAD]                  = 'bool';
@@ -707,13 +696,10 @@ class NetContent {
         @$cURL_options[CURLOPT_SSL_VERIFYHOST]          = 'bool';
         //Для следующих значений параметра option, параметр value должен быть типа integer:
         @$cURL_options[CURLOPT_BUFFERSIZE]              = 'integer';
-//        @$cURL_options[CURLOPT_CLOSEPOLICY]             = 'integer'; // php 8
         @$cURL_options[CURLOPT_CONNECTTIMEOUT]          = 'integer';
         @$cURL_options[CURLOPT_CONNECTTIMEOUT_MS]       = 'integer';
         @$cURL_options[CURLOPT_DNS_CACHE_TIMEOUT]       = 'integer';
-        @$cURL_options[CURLOPT_EXPECT_100_TIMEOUT_MS]   = 'integer';
         @$cURL_options[CURLOPT_FTPSSLAUTH]              = 'integer';
-        @$cURL_options[CURLOPT_HEADEROPT]               = 'integer';
         @$cURL_options[CURLOPT_HTTP_VERSION]            = 'integer';
         @$cURL_options[CURLOPT_HTTPAUTH]                = 'integer';
         @$cURL_options[CURLOPT_INFILESIZE]              = 'integer';
@@ -729,10 +715,7 @@ class NetContent {
         @$cURL_options[CURLOPT_PROXYTYPE]               = 'integer';
         @$cURL_options[CURLOPT_REDIR_PROTOCOLS]         = 'integer';
         @$cURL_options[CURLOPT_RESUME_FROM]             = 'integer';
-        @$cURL_options[CURLOPT_SSL_OPTIONS]             = 'integer';
-        //@$cURL_options[CURLOPT_SSL_VERIFYHOST]          = 'integer';
         @$cURL_options[CURLOPT_SSLVERSION]              = 'integer';
-        @$cURL_options[CURLOPT_STREAM_WEIGHT]           = 'integer';
         @$cURL_options[CURLOPT_TIMECONDITION]           = 'integer';
         @$cURL_options[CURLOPT_TIMEOUT]                 = 'integer';
         @$cURL_options[CURLOPT_TIMEOUT_MS]              = 'integer';
@@ -749,27 +732,19 @@ class NetContent {
         @$cURL_options[CURLOPT_COOKIEFILE]              = 'string';
         @$cURL_options[CURLOPT_COOKIEJAR]               = 'string';
         @$cURL_options[CURLOPT_CUSTOMREQUEST]           = 'string';
-        @$cURL_options[CURLOPT_DEFAULT_PROTOCOL]        = 'string';
-        @$cURL_options[CURLOPT_DNS_INTERFACE]           = 'string';
-        @$cURL_options[CURLOPT_DNS_LOCAL_IP4]           = 'string';
-        @$cURL_options[CURLOPT_DNS_LOCAL_IP6]           = 'string';
         @$cURL_options[CURLOPT_EGDSOCKET]               = 'string';
         @$cURL_options[CURLOPT_ENCODING]                = 'string';
         @$cURL_options[CURLOPT_FTPPORT]                 = 'string';
         @$cURL_options[CURLOPT_INTERFACE]               = 'string';
         @$cURL_options[CURLOPT_KEYPASSWD]               = 'string';
         @$cURL_options[CURLOPT_KRB4LEVEL]               = 'string';
-        @$cURL_options[CURLOPT_LOGIN_OPTIONS]           = 'string';
-        @$cURL_options[CURLOPT_PINNEDPUBLICKEY]         = 'string';
         @$cURL_options[CURLOPT_POSTFIELDS]              = 'mixed';
         @$cURL_options[CURLOPT_PRIVATE]                 = 'string';
         @$cURL_options[CURLOPT_PROXY]                   = 'string';
-        @$cURL_options[CURLOPT_PROXY_SERVICE_NAME]      = 'string';
         @$cURL_options[CURLOPT_PROXYUSERPWD]            = 'string';
         @$cURL_options[CURLOPT_RANDOM_FILE]             = 'string';
         @$cURL_options[CURLOPT_RANGE]                   = 'string';
         @$cURL_options[CURLOPT_REFERER]                 = 'string';
-        @$cURL_options[CURLOPT_SERVICE_NAME]            = 'string';
         @$cURL_options[CURLOPT_SSH_HOST_PUBLIC_KEY_MD5] = 'string';
         @$cURL_options[CURLOPT_SSH_PUBLIC_KEYFILE]      = 'string';
         @$cURL_options[CURLOPT_SSH_PRIVATE_KEYFILE]     = 'string';
@@ -782,18 +757,14 @@ class NetContent {
         @$cURL_options[CURLOPT_SSLKEY]                  = 'string';
         @$cURL_options[CURLOPT_SSLKEYPASSWD]            = 'string';
         @$cURL_options[CURLOPT_SSLKEYTYPE]              = 'string';
-        @$cURL_options[CURLOPT_UNIX_SOCKET_PATH]        = 'string';
         @$cURL_options[CURLOPT_URL]                     = 'string';
         @$cURL_options[CURLOPT_USERAGENT]               = 'string';
         @$cURL_options[CURLOPT_USERNAME]                = 'string';
         @$cURL_options[CURLOPT_USERPWD]                 = 'string';
-        @$cURL_options[CURLOPT_XOAUTH2_BEARER]          = 'string';
         //Для следующих значений параметра option, параметр value должен быть массивом:
-        @$cURL_options[CURLOPT_CONNECT_TO]              = 'array';
         @$cURL_options[CURLOPT_HTTP200ALIASES]          = 'array';
         @$cURL_options[CURLOPT_HTTPHEADER]              = 'array';
         @$cURL_options[CURLOPT_POSTQUOTE]               = 'array';
-        @$cURL_options[CURLOPT_PROXYHEADER]             = 'array';
         @$cURL_options[CURLOPT_QUOTE]                   = 'array';
         @$cURL_options[CURLOPT_RESOLVE]                 = 'array';
         //Для следующих значений параметра option, параметр value должен быть потоковым
@@ -805,7 +776,6 @@ class NetContent {
         //Для следующих значений параметра option, параметр value должен быть правильным
         //именем функции или замыканием:
         @$cURL_options[CURLOPT_HEADERFUNCTION]          = 'function';
-//        @$cURL_options[CURLOPT_PASSWDFUNCTION]          = 'function'; // php 8
         @$cURL_options[CURLOPT_PROGRESSFUNCTION]        = 'function';
         @$cURL_options[CURLOPT_READFUNCTION]            = 'function';
         @$cURL_options[CURLOPT_WRITEFUNCTION]           = 'function';
